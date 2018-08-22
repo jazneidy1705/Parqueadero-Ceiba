@@ -11,30 +11,22 @@ public class ParametrizacionMoto implements IParametrizacion {
 
 	private int cantidadMoto;
 
-	private int valorAdicionalCilindraje;
 
 	public ParametrizacionMoto() {
 		this.valorHoraMoto = 500;
 		this.valorDiaMoto = 4000;
 		this.cantidadMoto = 10;
-		this.valorAdicionalCilindraje = 2000;
 	}
 
 	@Override
-	public double tarifaValorHora(int cilindraje) {
+	public double tarifaValorHora() {
 
-		if (cilindraje > 500) {
-			return valorHoraMoto + valorAdicionalCilindraje;
-		}
 		return valorHoraMoto;
 	}
 
 	@Override
-	public double tarifaValorDia(int cilindraje) {
+	public double tarifaValorDia() {
 		
-		if (cilindraje > 500) {
-			return  valorDiaMoto+valorAdicionalCilindraje;
-		}
 		return valorDiaMoto;
 	}
 

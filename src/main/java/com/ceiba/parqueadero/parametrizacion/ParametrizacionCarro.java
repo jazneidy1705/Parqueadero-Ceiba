@@ -20,12 +20,12 @@ public class ParametrizacionCarro implements IParametrizacion{
 	}
 	
 	@Override
-	public double tarifaValorHora(int cilindraje) {
+	public double tarifaValorHora() {
 		return valorHoraCarro;
 	}
 
 	@Override
-	public double tarifaValorDia(int cilindraje) {
+	public double tarifaValorDia() {
 		return valorDiaCarro;
 	}
 

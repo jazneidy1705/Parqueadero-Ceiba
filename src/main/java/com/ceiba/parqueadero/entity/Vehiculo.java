@@ -2,6 +2,7 @@ package com.ceiba.parqueadero.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,7 +28,8 @@ public class Vehiculo implements Serializable{
 	
 	private String placa;
 	
-	private int cilindraje;
+	@Column(nullable=true)
+	private int cilindraje =0;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoVehiculoEnum tipoVehiculo;

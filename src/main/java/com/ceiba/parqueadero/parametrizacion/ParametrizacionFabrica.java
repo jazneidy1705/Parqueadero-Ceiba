@@ -10,10 +10,10 @@ public class ParametrizacionFabrica {
 	public IParametrizacion conexionFabrica(TipoVehiculoEnum tipoVehiculo) {
 
 		if (tipoVehiculo.equals(TipoVehiculoEnum.CARRO)) {
-			return new ParametrizacionMoto();
+			return new ParametrizacionCarro();
 		}
 		if (tipoVehiculo.equals(TipoVehiculoEnum.MOTO)) {
-			return new ParametrizacionCarro();
+			return new ParametrizacionMoto();
 		}
 		return null;
 	}
