@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
 
@@ -30,9 +31,11 @@ public class RegistroParqueo implements Serializable {
 	private Long id;
 
 	@NotNull
+	@DateTimeFormat(pattern = "HH:mm:ss dd/MM/yyyy")
 	private Date fechaEntrada;
 
 	@Column(nullable=true)
+	@DateTimeFormat(pattern = "HH:mm:ss dd/MM/yyyy")
 	private Date fechaSalida;
 
 	@Enumerated(EnumType.STRING)
@@ -43,7 +46,7 @@ public class RegistroParqueo implements Serializable {
 	private double valorFacturado;
 
 	@Column(nullable=true)
-	private String tiempo;
+	private int tiempo;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Vehiculo vehiculo;
@@ -88,11 +91,11 @@ public class RegistroParqueo implements Serializable {
 		this.valorFacturado = valorFacturado;
 	}
 
-	public String getTiempo() {
+	public int getTiempo() {
 		return tiempo;
 	}
 
-	public void setTiempo(String tiempo) {
+	public void setTiempo(int tiempo) {
 		this.tiempo = tiempo;
 	}
 

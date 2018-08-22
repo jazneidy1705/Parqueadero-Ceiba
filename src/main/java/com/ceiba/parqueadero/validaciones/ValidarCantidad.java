@@ -1,39 +1,31 @@
 package com.ceiba.parqueadero.validaciones;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
+import com.ceiba.parqueadero.parametrizacion.IParametrizacion;
+import com.ceiba.parqueadero.parametrizacion.ParametrizacionFabrica;
 import com.ceiba.parqueadero.repository.RegistroParqueoRepository;
-import com.ceiba.parqueadero.util.TipoVehiculoEnum;
 
+@Component
 public class ValidarCantidad implements IValidacionEntrada {
-	
-	@Autowired
-	RegistroParqueoRepository registroParqueoRepository;
-	
-	public static final int CANTIDAD_CARROS= 20;
-	public static final int CANTIDAD_MOTOS= 10;
+
+	ParametrizacionFabrica fabricaParametrizacion= new ParametrizacionFabrica();
 
 	@Override
-	public String ejecutarValidaciones(RegistroParqueoDTO registroParqueoDto) {
+	public String ejecutarValidacionesEntrada(RegistroParqueoDTO registroParqueoDto,RegistroParqueoRepository registroParqueoRepository) {
+
+		Integer cantidad =registroParqueoRepository
+				.countByVehiculoTipoVehiculoAndFechaSalidaIsNull(registroParqueoDto.getVehiculo().getTipoVehiculo());
 		
-		Long cantidad = registroParqueoRepository.contarVehiculos(registroParqueoDto.getVehiculo().getTipoVehiculo());
-		
-		if(registroParqueoDto.getVehiculo().getTipoVehiculo().equals(TipoVehiculoEnum.CARRO)) {
-			if(cantidad>=CANTIDAD_CARROS) {
-				return "El Parqueadero a alcanzado el Maximo numero de Carros  permitido";
-			}
-			 
-		}else  if(registroParqueoDto.getVehiculo().getTipoVehiculo().equals(TipoVehiculoEnum.MOTO)) {
-			
-			if(cantidad>=CANTIDAD_MOTOS) {
-				return "El Parqueadero a alcanzado el Maximo numero de Motos permitidas";	
-			}
+		IParametrizacion parametrizacion = fabricaParametrizacion
+				.conexionFabrica(registroParqueoDto.getVehiculo().getTipoVehiculo());
+
+		if (cantidad >= parametrizacion.cantidadVehiculos()) {
+			return "El Parqueadero a alcanzado el Maximo numero de Vehiculos  permitido";
 		}
-		
+
 		return null;
 	}
-	
-	
 
 }

@@ -14,7 +14,7 @@ public class RegistroParqueoDTO {
 	
 	private double valorFacturado;
 	
-	private String tiempo;
+	private int tiempo;
 	
 	private EstadoRegistroParqueoEnum estadoRegistroParqueo;
 	
@@ -29,11 +29,11 @@ public class RegistroParqueoDTO {
 		this.valorFacturado = valorFacturado;
 	}
 
-	public String getTiempo() {
+	public int getTiempo() {
 		return tiempo;
 	}
 
-	public void setTiempo(String tiempo) {
+	public void setTiempo(int tiempo) {
 		this.tiempo = tiempo;
 	}
 

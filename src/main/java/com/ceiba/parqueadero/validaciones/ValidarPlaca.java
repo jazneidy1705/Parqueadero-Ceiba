@@ -2,12 +2,16 @@ package com.ceiba.parqueadero.validaciones;
 
 import java.util.Calendar;
 
-import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
+import org.springframework.stereotype.Component;
 
+import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
+import com.ceiba.parqueadero.repository.RegistroParqueoRepository;
+
+@Component
 public class ValidarPlaca implements IValidacionEntrada {
 
 	@Override
-	public String ejecutarValidaciones(RegistroParqueoDTO registroParqueoDto) {
+	public String ejecutarValidacionesEntrada(RegistroParqueoDTO registroParqueoDto,RegistroParqueoRepository registroParqueoRepository) {
 
 		Calendar hoy = Calendar.getInstance();
 		char primeraLetra;

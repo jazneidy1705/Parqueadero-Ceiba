@@ -1,6 +1,9 @@
 package com.ceiba.parqueadero.parametrizacion;
 
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class ParametrizacionCarro implements IParametrizacion{
 	
 	private double valorHoraCarro;
@@ -17,12 +20,12 @@ public class ParametrizacionCarro implements IParametrizacion{
 	}
 	
 	@Override
-	public double tarifaValorHora() {
+	public double tarifaValorHora(int cilindraje) {
 		return valorHoraCarro;
 	}
 
 	@Override
-	public double tarifaValorDia() {
+	public double tarifaValorDia(int cilindraje) {
 		return valorDiaCarro;
 	}
 
