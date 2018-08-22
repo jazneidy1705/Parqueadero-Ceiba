@@ -39,16 +39,9 @@ public class VigilanteService implements VigilanteServiceInterface {
 	ParametrizacionFabrica fabricaParametrizacion;
 
 	private final ModelMapper modelMapper = new ModelMapper();
-
-	public final static int INICIO_DIA = 9;
-	public final static int FIN_DIA = 24;
-
 	private int diasParqueo;
 	private int horasParqueo;
 	private int minutosParqueo;
-
-	// private final ParametrizacionFabrica parametrizacionFabrica = new
-	// ParametrizacionFabrica();
 
 	/**
 	 * Constantes de la clase
@@ -111,7 +104,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 		if (registroParqueoEncontrado.isPresent()) {
 
 			RegistroParqueo registroParqueo = registroParqueoEncontrado.get();
-			double tarifaCobrar = cobrarTiempoParqueadero(registroParqueo);
+			double tarifaCobrar = calcularTiempoCobrarParqueadero(registroParqueo);
 			registroParqueo.setEstadoRegistroParqueo(EstadoRegistroParqueoEnum.FACTURADO);
 			registroParqueo.setFechaSalida(new Date());
 			registroParqueo.setValorFacturado(tarifaCobrar);
@@ -127,7 +120,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 	 * @return
 	 */
 	@Override
-	public double cobrarTiempoParqueadero(RegistroParqueo registroParqueo) {
+	public double calcularTiempoCobrarParqueadero(RegistroParqueo registroParqueo) {
 
 		double valorCobrado = 0.0;
 		Date fechaSalida = new Date();
@@ -167,15 +160,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 				valorCobrado = valorCobrado + 2000;
 			}
 		}
-//		//Corbro por Dias + Dias de las Horas
-//		if(diasParqueo>0 && horasParqueo >= 9 && horasParqueo <= 24 ) {
-//			diasParqueo=diasParqueo+1;
-//			valorCobrado=calcularValorTarifaDia(diasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
-//			if (registroParqueo.getVehiculo().getTipoVehiculo().equals(TipoVehiculoEnum.MOTO)
-//					&& registroParqueo.getVehiculo().getCilindraje() > 500) {
-//				valorCobrado = valorCobrado + 2000;
-//			}
-		//}
+
 		return valorCobrado;
 			
 	}
@@ -190,8 +175,8 @@ public class VigilanteService implements VigilanteServiceInterface {
 	 */
 	public Double calcularValorTarifaHora(int tiempoParqueo, TipoVehiculoEnum tipoVehiculo) {
 		IParametrizacion tarifa = fabricaParametrizacion.conexionFabrica(tipoVehiculo);
-		double resul = tiempoParqueo * tarifa.tarifaValorHora();
-		return resul;
+		return tiempoParqueo * tarifa.tarifaValorHora();
+		
 	}
 
 	/**
@@ -204,29 +189,26 @@ public class VigilanteService implements VigilanteServiceInterface {
 	 */
 	public Double calcularValorTarifaDia(int tiempoParqueo, TipoVehiculoEnum tipoVehiculo) {
 		IParametrizacion tarifa = fabricaParametrizacion.conexionFabrica(tipoVehiculo);
-		double resul = tiempoParqueo * tarifa.tarifaValorDia();
-		return resul;
+		return tiempoParqueo * tarifa.tarifaValorDia();
+		
 	}
 
 	public void calcularTiempoParqueo(Date fechaEntrada, Date fechaSalida) {
 
 		int diferencia = (int) ((fechaSalida.getTime() - fechaEntrada.getTime()) / 1000);
-		System.out.println("--------> diferencia " + diferencia);
-
+		
 		if (diferencia >= 86400) {
-			this.diasParqueo = (int) Math.floor(diferencia / 86400);
-			diferencia = diferencia - (diasParqueo * 86400);
+			this.diasParqueo = (diferencia / 86400);
+			diferencia -=(diasParqueo * 86400);
 		}
 		if (diferencia >= 3600) {
-			this.horasParqueo = (int) Math.floor(diferencia / 3600);
-			diferencia = diferencia - (horasParqueo * 3600);
+			this.horasParqueo = (diferencia / 3600);
+			diferencia -= (horasParqueo * 3600);
 		}
-		if (diferencia >= 60) {
-			this.minutosParqueo = (int) Math.floor(diferencia / 60);
-			diferencia = diferencia - (minutosParqueo * 60);
+		if (diferencia >= 60) { 
+			this.minutosParqueo = (diferencia / 60);
+			diferencia -= (minutosParqueo * 60);
 		}
-		System.out.println(" diferencia " + diferencia + "," + " dias Parqueo " + diasParqueo + "," + " horas Parqueo "
-				+ horasParqueo + "," + " minutos Parqueo" + minutosParqueo);
 	}
 
 	public int getDiasParqueo() {

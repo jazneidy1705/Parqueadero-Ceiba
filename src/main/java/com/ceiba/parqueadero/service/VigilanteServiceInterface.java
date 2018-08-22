@@ -14,7 +14,7 @@ public interface VigilanteServiceInterface {
 
 	String realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto);
 
-	double cobrarTiempoParqueadero(RegistroParqueo registroParqueo);
+	double calcularTiempoCobrarParqueadero(RegistroParqueo registroParqueo);
 
 	void crearRegistroSalida(String placa);
 
