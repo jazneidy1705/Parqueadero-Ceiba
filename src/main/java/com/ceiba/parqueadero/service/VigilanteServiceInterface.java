@@ -18,4 +18,6 @@ public interface VigilanteServiceInterface {
 
 	void crearRegistroSalida(String placa);
 
+	RegistroParqueoDTO buscarVehiculoParqueado(String placa);
+
 }

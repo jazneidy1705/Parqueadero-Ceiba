@@ -59,7 +59,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 		if (vehiculoEncontrado.isPresent()) {
 			registroParqueo.setVehiculo(vehiculoEncontrado.get());
 		} else {
-			Vehiculo vehiculoNuevo = vehiculoRepository.saveAndFlush(vehiculo);
+			Vehiculo vehiculoNuevo = vehiculoRepository.save(vehiculo);
 			registroParqueo.setVehiculo(vehiculoNuevo);
 		}
 		registroParqueo.setFechaEntrada(new Date());
@@ -82,11 +82,14 @@ public class VigilanteService implements VigilanteServiceInterface {
 	public String realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto) {
 		ArrayList<IValidacionEntrada> listaValidaciones = new ArrayList<>();
 		String msg = null;
-		listaValidaciones.add(new ValidarPlaca());
+		//listaValidaciones.add(new ValidarPlaca());
 		listaValidaciones.add(new ValidarCantidad());
 		listaValidaciones.add(new ValidarEstadoParqueo());
 		for (IValidacionEntrada validacionEntrada : listaValidaciones) {
 			msg = validacionEntrada.ejecutarValidacionesEntrada(registroParqueoDto, registroParqueoRepository);
+			if(msg != null) {
+				break;
+			}
 		}
 		return msg;
 	}
@@ -112,6 +115,16 @@ public class VigilanteService implements VigilanteServiceInterface {
 			registroParqueoRepository.save(registroParqueo);
 
 		}
+	}
+	
+	@Override
+	public RegistroParqueoDTO buscarVehiculoParqueado(String placa) {
+		Optional<RegistroParqueo> registroEncontrado=registroParqueoRepository.findByVehiculoPlacaAndEstadoRegistroParqueo(placa, EstadoRegistroParqueoEnum.ACTIVO);
+		if(registroEncontrado.isPresent()) {
+		return modelMapper.map(registroEncontrado, RegistroParqueoDTO.class);
+		}
+		return null;
+		
 	}
 
 	/**

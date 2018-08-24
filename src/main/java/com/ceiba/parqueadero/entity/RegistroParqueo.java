@@ -48,7 +48,7 @@ public class RegistroParqueo implements Serializable {
 	@Column(nullable=true)
 	private int tiempo;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Vehiculo vehiculo;
 
 	public Long getId() {
