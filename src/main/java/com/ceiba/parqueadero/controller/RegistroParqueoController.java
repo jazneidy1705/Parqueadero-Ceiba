@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
+import com.ceiba.parqueadero.excepciones.ParqueaderoException;
 import com.ceiba.parqueadero.service.VigilanteServiceInterface;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
@@ -31,25 +33,20 @@ public class RegistroParqueoController {
 
 	@PostMapping("/registrosParqueo")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void crearRegistroParqueo(@RequestBody RegistroParqueoDTO registroParqueoDto) {
-		String mensaje = vigilanteService.realizarvalidacionesDeEntrada(registroParqueoDto);
-		if(mensaje!=null) {
-			throw new UnsupportedOperationException(mensaje);
-		}else {	
-			vigilanteService.crearRegistroEntrada(registroParqueoDto);
-		}
-	}
-	
-	@PutMapping("/registrosParqueo/{placa}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public void crearRegistroSalida(@PathVariable(value = "placa")String placa) {
-		vigilanteService.crearRegistroSalida(placa);
-	}
-	
-	@GetMapping("/registrosParqueo/{placa}")
-	public RegistroParqueoDTO show(@PathVariable(value = "placa")String placa) {
-		return vigilanteService.buscarVehiculoParqueado(placa);
+	public RegistroParqueoDTO  crearRegistroParqueo(@RequestBody RegistroParqueoDTO registroParqueoDto) throws ParqueaderoException {
+
+			return  vigilanteService.crearRegistroEntrada(registroParqueoDto);
 	}
 
+	@PutMapping("/registrosParqueo/{placa}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void crearRegistroSalida(@PathVariable(value = "placa") String placa) {
+		vigilanteService.crearRegistroSalida(placa);
+	}
+
+	@GetMapping("/registrosParqueo/{placa}")
+	public RegistroParqueoDTO show(@PathVariable(value = "placa") String placa) {
+		return vigilanteService.buscarVehiculoParqueado(placa);
+	}
 
 }

@@ -52,6 +52,7 @@ public class ValidarPlacaTest {
 				.build();
 
 		when(calendario.fechaACtual()).thenReturn(lunes);
+		//when(calendario.fechaACtual()).thenCallRealMethod();
 		String msg = validarPlaca.ejecutarValidacionesEntrada(
 				modelMapper.map(registroParqueo, RegistroParqueoDTO.class), registroRepository);
 		assertEquals("No esta autorizado a ingresar", msg);

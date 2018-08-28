@@ -49,22 +49,32 @@ public class VigilanteService implements VigilanteServiceInterface {
 
 	@Override
 	@Transactional
-	public void crearRegistroEntrada(RegistroParqueoDTO registroParqueoDto) {
+	public RegistroParqueoDTO crearRegistroEntrada(RegistroParqueoDTO registroParqueoDto) {
 
-		RegistroParqueo registroParqueo = modelMapper.map(registroParqueoDto, RegistroParqueo.class);
-		Vehiculo vehiculo = modelMapper.map(registroParqueoDto.getVehiculo(), Vehiculo.class);
+		if (registroParqueoDto.getVehiculo() == null) {
 
-		Optional<Vehiculo> vehiculoEncontrado = vehiculoRepository.buscarVehiculoPorPlaca(vehiculo.getPlaca());
-
-		if (vehiculoEncontrado.isPresent()) {
-			registroParqueo.setVehiculo(vehiculoEncontrado.get());
+			return null;
 		} else {
-			Vehiculo vehiculoNuevo = vehiculoRepository.save(vehiculo);
-			registroParqueo.setVehiculo(vehiculoNuevo);
+
+			this.realizarvalidacionesDeEntrada(registroParqueoDto);
+			RegistroParqueo registroParqueo = modelMapper.map(registroParqueoDto, RegistroParqueo.class);
+			Vehiculo vehiculo = modelMapper.map(registroParqueoDto.getVehiculo(), Vehiculo.class);
+
+			Optional<Vehiculo> vehiculoEncontrado = vehiculoRepository.buscarVehiculoPorPlaca(vehiculo.getPlaca());
+
+			if (vehiculoEncontrado.isPresent()) {
+				registroParqueo.setVehiculo(vehiculoEncontrado.get());
+			} else {
+				Vehiculo vehiculoNuevo = vehiculoRepository.saveAndFlush(vehiculo);
+				registroParqueo.setVehiculo(vehiculoNuevo);
+			}
+			registroParqueo.setFechaEntrada(new Date());
+			registroParqueo.setEstadoRegistroParqueo(EstadoRegistroParqueoEnum.ACTIVO);
+
+			RegistroParqueo registro = registroParqueoRepository.save(registroParqueo);
+
+			return modelMapper.map(registro, RegistroParqueoDTO.class);
 		}
-		registroParqueo.setFechaEntrada(new Date());
-		registroParqueo.setEstadoRegistroParqueo(EstadoRegistroParqueoEnum.ACTIVO);
-		registroParqueoRepository.save(registroParqueo);
 	}
 
 	@Override
@@ -78,16 +88,16 @@ public class VigilanteService implements VigilanteServiceInterface {
 
 	}
 
-	@Override
+	
 	public String realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto) {
 		ArrayList<IValidacionEntrada> listaValidaciones = new ArrayList<>();
 		String msg = null;
-		//listaValidaciones.add(new ValidarPlaca());
+		listaValidaciones.add(new ValidarPlaca());
 		listaValidaciones.add(new ValidarCantidad());
 		listaValidaciones.add(new ValidarEstadoParqueo());
 		for (IValidacionEntrada validacionEntrada : listaValidaciones) {
 			msg = validacionEntrada.ejecutarValidacionesEntrada(registroParqueoDto, registroParqueoRepository);
-			if(msg != null) {
+			if (msg != null) {
 				break;
 			}
 		}
@@ -116,15 +126,16 @@ public class VigilanteService implements VigilanteServiceInterface {
 
 		}
 	}
-	
+
 	@Override
 	public RegistroParqueoDTO buscarVehiculoParqueado(String placa) {
-		Optional<RegistroParqueo> registroEncontrado=registroParqueoRepository.findByVehiculoPlacaAndEstadoRegistroParqueo(placa, EstadoRegistroParqueoEnum.ACTIVO);
-		if(registroEncontrado.isPresent()) {
-		return modelMapper.map(registroEncontrado, RegistroParqueoDTO.class);
+		Optional<RegistroParqueo> registroEncontrado = registroParqueoRepository
+				.findByVehiculoPlacaAndEstadoRegistroParqueo(placa, EstadoRegistroParqueoEnum.ACTIVO);
+		if (registroEncontrado.isPresent()) {
+			return modelMapper.map(registroEncontrado, RegistroParqueoDTO.class);
 		}
 		return null;
-		
+
 	}
 
 	/**
@@ -139,7 +150,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 		Date fechaSalida = new Date();
 		this.calcularTiempoParqueo(registroParqueo.getFechaEntrada(), fechaSalida);
 
-		//Cobro por Horas
+		// Cobro por Horas
 		if (horasParqueo <= 9) {
 			if (minutosParqueo > 0) {
 				horasParqueo = horasParqueo + 1;
@@ -150,24 +161,24 @@ public class VigilanteService implements VigilanteServiceInterface {
 				valorCobrado = valorCobrado + 2000;
 			}
 		}
-		//Cobro por Dias
-		
-		if (horasParqueo >= 9 && horasParqueo <= 24 ) {
+		// Cobro por Dias
+
+		if (horasParqueo >= 9 && horasParqueo <= 24) {
 			diasParqueo = diasParqueo + 1;
-			valorCobrado=calcularValorTarifaDia(diasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
+			valorCobrado = calcularValorTarifaDia(diasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
 			if (registroParqueo.getVehiculo().getTipoVehiculo().equals(TipoVehiculoEnum.MOTO)
 					&& registroParqueo.getVehiculo().getCilindraje() > 500) {
 				valorCobrado = valorCobrado + 2000;
 			}
 		}
-		
-		//Cobro por Dia y Hora
-		if(diasParqueo>0 && horasParqueo <= 9 ) {
+
+		// Cobro por Dia y Hora
+		if (diasParqueo > 0 && horasParqueo <= 9) {
 			if (minutosParqueo > 0) {
 				horasParqueo = horasParqueo + 1;
 			}
-			valorCobrado=calcularValorTarifaHora(horasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
-			valorCobrado+=calcularValorTarifaDia(diasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
+			valorCobrado = calcularValorTarifaHora(horasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
+			valorCobrado += calcularValorTarifaDia(diasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
 			if (registroParqueo.getVehiculo().getTipoVehiculo().equals(TipoVehiculoEnum.MOTO)
 					&& registroParqueo.getVehiculo().getCilindraje() > 500) {
 				valorCobrado = valorCobrado + 2000;
@@ -175,7 +186,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 		}
 
 		return valorCobrado;
-			
+
 	}
 
 	/**
@@ -189,7 +200,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 	public Double calcularValorTarifaHora(int tiempoParqueo, TipoVehiculoEnum tipoVehiculo) {
 		IParametrizacion tarifa = fabricaParametrizacion.conexionFabrica(tipoVehiculo);
 		return tiempoParqueo * tarifa.tarifaValorHora();
-		
+
 	}
 
 	/**
@@ -203,22 +214,22 @@ public class VigilanteService implements VigilanteServiceInterface {
 	public Double calcularValorTarifaDia(int tiempoParqueo, TipoVehiculoEnum tipoVehiculo) {
 		IParametrizacion tarifa = fabricaParametrizacion.conexionFabrica(tipoVehiculo);
 		return tiempoParqueo * tarifa.tarifaValorDia();
-		
+
 	}
 
 	public void calcularTiempoParqueo(Date fechaEntrada, Date fechaSalida) {
 
 		int diferencia = (int) ((fechaSalida.getTime() - fechaEntrada.getTime()) / 1000);
-		
+
 		if (diferencia >= 86400) {
 			this.diasParqueo = (diferencia / 86400);
-			diferencia -=(diasParqueo * 86400);
+			diferencia -= (diasParqueo * 86400);
 		}
 		if (diferencia >= 3600) {
 			this.horasParqueo = (diferencia / 3600);
 			diferencia -= (horasParqueo * 3600);
 		}
-		if (diferencia >= 60) { 
+		if (diferencia >= 60) {
 			this.minutosParqueo = (diferencia / 60);
 			diferencia -= (minutosParqueo * 60);
 		}
