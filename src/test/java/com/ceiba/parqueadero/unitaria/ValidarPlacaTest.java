@@ -20,7 +20,7 @@ import com.ceiba.parqueadero.entity.Vehiculo;
 import com.ceiba.parqueadero.repository.RegistroParqueoRepository;
 import com.ceiba.parqueadero.testdatabuilder.RegistroParqueoTestDataBuilder;
 import com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
-import com.ceiba.parqueadero.util.Calendario;
+import com.ceiba.parqueadero.util.CalcularTarifa;
 import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
 import com.ceiba.parqueadero.util.TipoVehiculoEnum;
 import com.ceiba.parqueadero.validaciones.ValidarPlaca;
@@ -33,7 +33,7 @@ public class ValidarPlacaTest {
 	ValidarPlaca validarPlaca;
 
 	@MockBean
-	Calendario calendario;
+	CalcularTarifa calendario;
 
 	@Autowired
 	RegistroParqueoRepository registroRepository;

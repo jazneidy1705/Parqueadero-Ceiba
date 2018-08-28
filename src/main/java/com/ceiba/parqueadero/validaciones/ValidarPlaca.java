@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
 import com.ceiba.parqueadero.repository.RegistroParqueoRepository;
-import com.ceiba.parqueadero.util.Calendario;
+import com.ceiba.parqueadero.util.CalcularTarifa;
 
 @Component
 public class ValidarPlaca implements IValidacionEntrada {
 
-	Calendario calendario= new Calendario();
+	CalcularTarifa calendario= new CalcularTarifa();
 
 	
 	@Override

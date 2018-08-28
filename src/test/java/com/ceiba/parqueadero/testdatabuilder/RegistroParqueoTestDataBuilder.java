@@ -10,11 +10,13 @@ public class RegistroParqueoTestDataBuilder {
 	private Date fechaEntrada;
 	private EstadoRegistroParqueoEnum estadoRegistro;
 	private Vehiculo vehiculo;
+	private Date fechaSalida;
 	
 	public RegistroParqueoTestDataBuilder() {
 		this.fechaEntrada= new Date();
 		this.estadoRegistro = EstadoRegistroParqueoEnum.ACTIVO;
 		this.vehiculo= new Vehiculo();
+		this.fechaSalida= new Date();
 	}
 
 	
@@ -23,6 +25,7 @@ public class RegistroParqueoTestDataBuilder {
 		registroParqueoNuevo.setFechaEntrada(fechaEntrada);
 		registroParqueoNuevo.setEstadoRegistroParqueo(estadoRegistro);
 		registroParqueoNuevo.setVehiculo(vehiculo);
+		registroParqueoNuevo.setFechaSalida(fechaSalida);
 		return registroParqueoNuevo;
 	}
 
@@ -51,6 +54,10 @@ public class RegistroParqueoTestDataBuilder {
 		return this;
 	}
 	
+	public RegistroParqueoTestDataBuilder conFechaSalida(Date fechaSalida) {
+		this.fechaSalida = fechaSalida;
+		return this;
+	}
 	
 	
 	

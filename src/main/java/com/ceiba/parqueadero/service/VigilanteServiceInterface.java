@@ -2,8 +2,8 @@ package com.ceiba.parqueadero.service;
 
 import java.util.List;
 
+import com.ceiba.parqueadero.dto.ParqueaderoExceptionDTO;
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
-import com.ceiba.parqueadero.entity.RegistroParqueo;
 import com.ceiba.parqueadero.excepciones.ParqueaderoException;
 
 public interface VigilanteServiceInterface {
@@ -12,12 +12,10 @@ public interface VigilanteServiceInterface {
 
 	RegistroParqueoDTO crearRegistroEntrada(RegistroParqueoDTO registroParqueoDTO) throws ParqueaderoException;
 
-//	String realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto);
+   String realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto);
 
-	double calcularTiempoCobrarParqueadero(RegistroParqueo registroParqueo);
+   RegistroParqueoDTO crearRegistroSalida(String placa) throws ParqueaderoExceptionDTO;
 
-	void crearRegistroSalida(String placa);
-
-	RegistroParqueoDTO buscarVehiculoParqueado(String placa);
+   RegistroParqueoDTO buscarVehiculoParqueado(String placa);
 
 }

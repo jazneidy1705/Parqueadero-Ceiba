@@ -1,6 +1,11 @@
 package com.ceiba.parqueadero.dto;
 
-public class ParqueaderoExceptionDTO {
+public class ParqueaderoExceptionDTO extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4546104143083247090L;
 
 	private String codigo;
 
@@ -12,6 +17,10 @@ public class ParqueaderoExceptionDTO {
 		this.mensaje = mensaje;
 	}
 
+	public ParqueaderoExceptionDTO (String mensaje,Throwable causa) {
+		super(mensaje, causa);
+	}
+	
 	/**
 	 * @return the codigo
 	 */
