@@ -6,9 +6,9 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ceiba.parqueadero.entity.RegistroParqueo;
-import com.ceiba.parqueadero.parametrizacion.IParametrizacion;
-import com.ceiba.parqueadero.parametrizacion.ParametrizacionFabrica;
+import com.ceiba.parqueadero.dominio.configuracionreglasnegocio.IParametrizacion;
+import com.ceiba.parqueadero.dominio.configuracionreglasnegocio.ParametrizacionFabrica;
+import com.ceiba.parqueadero.infraestructura.entity.RegistroParqueo;
 
 @Component
 public class CalcularTarifa {
@@ -38,7 +38,6 @@ public class CalcularTarifa {
 	public double calcularTarifaACobrarParqueadero(RegistroParqueo registroParqueo) {
 
 		double valorCobrado = 0.0;
-//		Date fechaSalida = new Date();
 		this.calcularTiempoParqueo(registroParqueo.getFechaEntrada(), registroParqueo.getFechaSalida());
 		
 		
