@@ -12,7 +12,7 @@ public interface VigilanteServiceInterface {
 
 	RegistroParqueoDTO crearRegistroEntrada(RegistroParqueoDTO registroParqueoDTO) throws ParqueaderoException;
 
-   String realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto);
+   void realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto);
 
    RegistroParqueoDTO crearRegistroSalida(String placa) throws ParqueaderoExceptionDTO;
 

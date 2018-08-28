@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -47,14 +48,15 @@ public class VigilanteService implements VigilanteServiceInterface {
 
 	@Override
 	@Transactional
-	public RegistroParqueoDTO crearRegistroEntrada(RegistroParqueoDTO registroParqueoDto) {
+	public RegistroParqueoDTO crearRegistroEntrada(RegistroParqueoDTO registroParqueoDto)throws ParqueaderoException {
 
 		if (registroParqueoDto.getVehiculo() == null) {
 
 			return null;
 		} else {
 
-			this.realizarvalidacionesDeEntrada(registroParqueoDto);
+			realizarvalidacionesDeEntrada(registroParqueoDto);
+			
 			RegistroParqueo registroParqueo = modelMapper.map(registroParqueoDto, RegistroParqueo.class);
 			Vehiculo vehiculo = modelMapper.map(registroParqueoDto.getVehiculo(), Vehiculo.class);
 
@@ -70,7 +72,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 			registroParqueo.setEstadoRegistroParqueo(EstadoRegistroParqueoEnum.ACTIVO);
 
 			RegistroParqueo registro = registroParqueoRepository.save(registroParqueo);
-
+			
 			return modelMapper.map(registro, RegistroParqueoDTO.class);
 		}
 	}
@@ -86,7 +88,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 
 	}
 
-	public String realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto) {
+	public void realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto)throws ParqueaderoException {
 		ArrayList<IValidacionEntrada> listaValidaciones = new ArrayList<>();
 		String msg = null;
 		listaValidaciones.add(new ValidarPlaca());
@@ -95,10 +97,9 @@ public class VigilanteService implements VigilanteServiceInterface {
 		for (IValidacionEntrada validacionEntrada : listaValidaciones) {
 			msg = validacionEntrada.ejecutarValidacionesEntrada(registroParqueoDto, registroParqueoRepository);
 			if (msg != null) {
-				break;
+				throw new ParqueaderoException(msg) ;
 			}
 		}
-		return msg;
 	}
 
 	/**
@@ -114,12 +115,11 @@ public class VigilanteService implements VigilanteServiceInterface {
 					.findByVehiculoPlacaAndEstadoRegistroParqueo(placa, EstadoRegistroParqueoEnum.ACTIVO);
 			
 			
-
 			if (registroParqueoEncontrado.isPresent()) {
 				registroParqueo = registroParqueoEncontrado.get();
-				double tarifaCobrar = calculoTarifa.calcularTarifaACobrarParqueadero(registroParqueo);
-				registroParqueo.setEstadoRegistroParqueo(EstadoRegistroParqueoEnum.FACTURADO);
 				registroParqueo.setFechaSalida(new Date());
+				double tarifaCobrar = calculoTarifa.calcularTarifaACobrarParqueadero(registroParqueoEncontrado.get());
+				registroParqueo.setEstadoRegistroParqueo(EstadoRegistroParqueoEnum.FACTURADO);
 				registroParqueo.setValorFacturado(tarifaCobrar);
 				
 			}

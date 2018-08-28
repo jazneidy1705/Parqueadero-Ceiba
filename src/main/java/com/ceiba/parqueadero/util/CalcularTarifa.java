@@ -3,6 +3,7 @@ package com.ceiba.parqueadero.util;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.springframework.aop.target.HotSwappableTargetSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,9 @@ public class CalcularTarifa {
 
 		double valorCobrado = 0.0;
 		this.calcularTiempoParqueo(registroParqueo.getFechaEntrada(), registroParqueo.getFechaSalida());
+		System.out.println("F E "+registroParqueo.getFechaEntrada());
+		System.out.println("F S "+registroParqueo.getFechaSalida());
+		
 		
 		
 		if(minutosParqueo>0) {
@@ -54,7 +58,6 @@ public class CalcularTarifa {
 				diasParqueo ++;
 				horasParqueo-=HORA_FIN;
 			}
-			
 		}
 		
 		valorCobrado = calcularValorTarifaHora(horasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
@@ -65,7 +68,6 @@ public class CalcularTarifa {
 		valorCobrado += calcularValorTarifaDia(diasParqueo, registroParqueo.getVehiculo().getTipoVehiculo());
 
 		return valorCobrado;
-
 	}
 	
 	
@@ -98,8 +100,13 @@ public class CalcularTarifa {
 	}
 		
 	public void calcularTiempoParqueo(Date fechaEntrada, Date fechaSalida) {
-
+		
+		diasParqueo=0;
+		horasParqueo=0;
+		minutosParqueo=0;
+		 
 		int diferencia = (int) ((fechaSalida.getTime() - fechaEntrada.getTime()) /  DIVISION_MIL);
+	
 		
 		if (diferencia >= DIA_MILISEGUNDO ) {
 			this.diasParqueo = (diferencia / DIA_MILISEGUNDO );
@@ -112,6 +119,8 @@ public class CalcularTarifa {
 		if (diferencia >= MINUTO_MILISEGUNDO ) { 
 			this.minutosParqueo = (diferencia / MINUTO_MILISEGUNDO );
 		}
+		
+		System.out.println("dias parqueo "+ diasParqueo + " - " + "Horas Parqueo " + horasParqueo + " - " + "Min "  +minutosParqueo );
 	}
 
 	public int getDiasParqueo() {

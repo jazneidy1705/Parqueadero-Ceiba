@@ -17,7 +17,7 @@ public class RegistroParqueoTestDataBuilder {
 		this.fechaEntrada= new Date();
 		this.estadoRegistro = EstadoRegistroParqueoEnum.ACTIVO;
 		this.vehiculo= new Vehiculo();
-		this.fechaSalida= new Date();
+		this.fechaSalida= fechaSalida;
 	}
 
 	
