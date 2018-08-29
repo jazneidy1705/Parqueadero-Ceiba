@@ -1,7 +1,6 @@
 package com.ceiba.parqueadero.infraestructura.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +17,7 @@ public interface RegistroParqueoRepository extends JpaRepository<RegistroParqueo
 
 	Integer countByVehiculoTipoVehiculoAndFechaSalidaIsNull(TipoVehiculoEnum tipoVehiculo);
 	
-	Optional<RegistroParqueo> findByVehiculoPlacaAndEstadoRegistroParqueo(String placa,EstadoRegistroParqueoEnum estadoParqueo);
+	RegistroParqueo findByVehiculoPlacaAndEstadoRegistroParqueo(String placa,EstadoRegistroParqueoEnum estadoParqueo);
 	
 	@Query("SELECT "
 			+ "RE "

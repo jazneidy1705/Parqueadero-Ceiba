@@ -1,13 +1,12 @@
 package com.ceiba.parqueadero.aplicacion.service;
 
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
-import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,15 +108,15 @@ public class VigilanteService implements VigilanteServiceInterface {
 	public RegistroParqueoDTO crearRegistroSalida(String placa){
 
 		RegistroParqueo registroParqueo= new RegistroParqueo();
-		try {
-			Optional<RegistroParqueo> registroParqueoEncontrado = registroParqueoRepository
+
+			RegistroParqueo registroParqueoEncontrado = registroParqueoRepository
 					.findByVehiculoPlacaAndEstadoRegistroParqueo(placa, EstadoRegistroParqueoEnum.ACTIVO);
 			
 			
-			if (registroParqueoEncontrado.isPresent()) {
-				registroParqueo = registroParqueoEncontrado.get();
+			if (registroParqueoEncontrado!=null) {
+				registroParqueo = registroParqueoEncontrado;
 				registroParqueo.setFechaSalida(new Date());
-				double tarifaCobrar = calculoTarifa.calcularTarifaACobrarParqueadero(registroParqueoEncontrado.get());
+				double tarifaCobrar = calculoTarifa.calcularTarifaACobrarParqueadero(registroParqueoEncontrado);
 				registroParqueo.setEstadoRegistroParqueo(EstadoRegistroParqueoEnum.FACTURADO);
 				registroParqueo.setValorFacturado(tarifaCobrar);
 				
@@ -125,20 +124,17 @@ public class VigilanteService implements VigilanteServiceInterface {
 			RegistroParqueo registroActualizado = registroParqueoRepository.save(registroParqueo);
 			return modelMapper.map(registroActualizado, RegistroParqueoDTO.class);
 		
-		} catch (MappingException e) {
-			throw new ParqueaderoException("No Se ha Actualizado el Registro de manera exitosa");
-		}
 	}
 
 
 	@Override
 	public RegistroParqueoDTO buscarVehiculoParqueado(String placa) {
-		Optional<RegistroParqueo> registroEncontrado = registroParqueoRepository
+		RegistroParqueo registroEncontrado = registroParqueoRepository
 				.findByVehiculoPlacaAndEstadoRegistroParqueo(placa, EstadoRegistroParqueoEnum.ACTIVO);
-		if (registroEncontrado.isPresent()) {
+		if (registroEncontrado!=null) {
 			return modelMapper.map(registroEncontrado, RegistroParqueoDTO.class);
 		}
-		return null;
+		throw new ParqueaderoException("El registro no Existe");
 
 	}
 
