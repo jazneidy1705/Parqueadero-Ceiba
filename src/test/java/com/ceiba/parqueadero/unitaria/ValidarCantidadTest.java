@@ -49,22 +49,7 @@ public class ValidarCantidadTest {
 
 		assertEquals(null, msg);
 	}
-	
-	
-	@Test
-	public void validarDisponibilidadMaximaEntradaParqueadero() {
-		
-		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("SBC123").conTipoVehiculo(TipoVehiculoEnum.CARRO)
-				.conCilindraje(500).build();
-		RegistroParqueo registroParqueo = new RegistroParqueoTestDataBuilder()
-				.conEstadoRegistro(EstadoRegistroParqueoEnum.ACTIVO).conFechaEntrada(new Date()).conVehiculo(vehiculo)
-				.build();
-		
-		String msg = validarCantidad.ejecutarValidacionesEntrada(
-				modelMapper.map(registroParqueo, RegistroParqueoDTO.class), registroParqueoRepository);
 
-		assertEquals("El Parqueadero a alcanzado el Maximo numero de Vehiculos  permitido", msg);
-	}
 	
 
 }
