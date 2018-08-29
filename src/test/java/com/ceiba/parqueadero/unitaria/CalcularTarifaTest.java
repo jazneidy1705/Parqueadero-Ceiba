@@ -11,7 +11,6 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -51,7 +50,6 @@ public class CalcularTarifaTest {
 	public void calcularTarifaPorHoraMoto() throws ParseException {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// REVISAR COMO MOCKEO LA FECHA DE SALIDA
 		Date fechaIngreso = sdf.parse("2018-08-28 06:00:00");
 		Date fechaSalida = sdf.parse("2018-08-28 10:00:00");
 		
@@ -77,7 +75,6 @@ public class CalcularTarifaTest {
 	public void calcularTarifaPorHoraCarro() throws ParseException {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// REVISAR COMO MOCKEO LA FECHA DE SALIDA
 		Date fechaIngreso = sdf.parse("2018-08-28 06:00:00");
 		Date fechaSalida = sdf.parse("2018-08-28 10:00:00");
 		
@@ -103,7 +100,6 @@ public class CalcularTarifaTest {
 	public void calcularTarifaPorDiaCarro() throws ParseException {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// REVISAR COMO MOCKEO LA FECHA DE SALIDA
 		Date fechaIngreso = sdf.parse("2018-08-27 06:00:00");
 		Date fechaSalida = sdf.parse("2018-08-28 10:00:00");
 		

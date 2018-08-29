@@ -1,6 +1,5 @@
 package com.ceiba.parqueadero.integracion;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -15,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ceiba.parqueadero.dto.ParqueaderoExceptionDTO;
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
+import com.ceiba.parqueadero.excepciones.ParqueaderoException;
 import com.ceiba.parqueadero.infraestructura.entity.RegistroParqueo;
 import com.ceiba.parqueadero.infraestructura.entity.Vehiculo;
 import com.ceiba.parqueadero.infraestructura.repository.RegistroParqueoRepository;
@@ -37,18 +36,6 @@ public class RegistroParqueoTest {
 	
 	@Autowired
     RegistroParqueoRepository registroParqueoRepository;
-	
-	
-//	@Before
-//	public void datosIniciales() {
-//		
-//		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("PBC123").conTipoVehiculo(TipoVehiculoEnum.CARRO)
-//				.conCilindraje(500).build();
-//		registroParqueoInicio = new RegistroParqueoTestDataBuilder()
-//				.conEstadoRegistro(EstadoRegistroParqueoEnum.ACTIVO).conFechaEntrada(new Date()).conVehiculo(vehiculo)
-//				.build();
-//		registroParqueoRepository.save(registroParqueoInicio);
-//	}
 
 	@Test
 	public void crearRegistroParqueoConVehiculoExistenteTest() {
@@ -99,11 +86,10 @@ public class RegistroParqueoTest {
 		List<RegistroParqueoDTO> listaVehiculos= registroParqueoController.listarRegistrosParqueos();
 		
 		assertTrue(listaVehiculos.size() > 0);
-		
 	}
 	
 	@Test
-	public void crearRegistroSalida() throws ParqueaderoExceptionDTO {
+	public void crearRegistroSalida() throws ParqueaderoException {
 		
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("PBC123").conTipoVehiculo(TipoVehiculoEnum.CARRO)
 				.conCilindraje(500).build();

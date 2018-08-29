@@ -18,7 +18,6 @@ import com.ceiba.parqueadero.dominio.validacionreglasnegocio.IValidacionEntrada;
 import com.ceiba.parqueadero.dominio.validacionreglasnegocio.ValidarCantidad;
 import com.ceiba.parqueadero.dominio.validacionreglasnegocio.ValidarEstadoParqueo;
 import com.ceiba.parqueadero.dominio.validacionreglasnegocio.ValidarPlaca;
-import com.ceiba.parqueadero.dto.ParqueaderoExceptionDTO;
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
 import com.ceiba.parqueadero.excepciones.ParqueaderoException;
 import com.ceiba.parqueadero.infraestructura.entity.RegistroParqueo;
@@ -48,7 +47,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 
 	@Override
 	@Transactional
-	public RegistroParqueoDTO crearRegistroEntrada(RegistroParqueoDTO registroParqueoDto)throws ParqueaderoException {
+	public RegistroParqueoDTO crearRegistroEntrada(RegistroParqueoDTO registroParqueoDto){
 
 		if (registroParqueoDto.getVehiculo() == null) {
 
@@ -88,7 +87,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 
 	}
 
-	public void realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto)throws ParqueaderoException {
+	public void realizarvalidacionesDeEntrada(RegistroParqueoDTO registroParqueoDto){
 		ArrayList<IValidacionEntrada> listaValidaciones = new ArrayList<>();
 		String msg = null;
 		listaValidaciones.add(new ValidarPlaca());
@@ -107,7 +106,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 	 * @param registroParqueoDto
 	 */
 	@Override
-	public RegistroParqueoDTO crearRegistroSalida(String placa) throws ParqueaderoExceptionDTO{
+	public RegistroParqueoDTO crearRegistroSalida(String placa){
 
 		RegistroParqueo registroParqueo= new RegistroParqueo();
 		try {
@@ -127,7 +126,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 			return modelMapper.map(registroActualizado, RegistroParqueoDTO.class);
 		
 		} catch (MappingException e) {
-			throw new ParqueaderoException("0001","No Se ha Actualizado el Registro de manera exitosa");
+			throw new ParqueaderoException("No Se ha Actualizado el Registro de manera exitosa");
 		}
 	}
 

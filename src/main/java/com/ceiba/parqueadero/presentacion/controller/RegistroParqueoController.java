@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ceiba.parqueadero.aplicacion.service.VigilanteServiceInterface;
-import com.ceiba.parqueadero.dto.ParqueaderoExceptionDTO;
+
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
-import com.ceiba.parqueadero.excepciones.ParqueaderoException;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
@@ -34,14 +33,14 @@ public class RegistroParqueoController {
 
 	@PostMapping("/registrosParqueo")
 	@ResponseStatus(HttpStatus.CREATED)
-	public RegistroParqueoDTO  crearRegistroParqueo(@RequestBody RegistroParqueoDTO registroParqueoDto) throws ParqueaderoException {
+	public RegistroParqueoDTO  crearRegistroParqueo(@RequestBody RegistroParqueoDTO registroParqueoDto) {
 
 		return  vigilanteService.crearRegistroEntrada(registroParqueoDto);
 	}
 
 	@PutMapping("/registrosParqueo/{placa}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public RegistroParqueoDTO crearRegistroSalida(@PathVariable(value = "placa") String placa) throws ParqueaderoExceptionDTO {
+	public RegistroParqueoDTO crearRegistroSalida(@PathVariable(value = "placa") String placa) {
 		return vigilanteService.crearRegistroSalida(placa);
 	}
 
