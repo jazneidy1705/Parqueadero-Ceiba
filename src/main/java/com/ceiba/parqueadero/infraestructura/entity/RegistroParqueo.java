@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
+import com.ceiba.parqueadero.dominio.util.EstadoRegistroParqueoEnum;
 
 @Entity
 @Table(name = "REGISTRO_PARQUEOS")

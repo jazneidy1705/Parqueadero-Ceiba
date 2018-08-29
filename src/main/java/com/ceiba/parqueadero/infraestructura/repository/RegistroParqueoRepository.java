@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ceiba.parqueadero.dominio.util.EstadoRegistroParqueoEnum;
+import com.ceiba.parqueadero.dominio.util.TipoVehiculoEnum;
 import com.ceiba.parqueadero.infraestructura.entity.RegistroParqueo;
-import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
-import com.ceiba.parqueadero.util.TipoVehiculoEnum;
 
 
 public interface RegistroParqueoRepository extends JpaRepository<RegistroParqueo, Long> {

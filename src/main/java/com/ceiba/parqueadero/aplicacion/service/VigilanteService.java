@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ceiba.parqueadero.dominio.util.CalcularTarifa;
+import com.ceiba.parqueadero.dominio.util.EstadoRegistroParqueoEnum;
 import com.ceiba.parqueadero.dominio.validacionreglasnegocio.IValidacionEntrada;
 import com.ceiba.parqueadero.dominio.validacionreglasnegocio.ValidarCantidad;
 import com.ceiba.parqueadero.dominio.validacionreglasnegocio.ValidarEstadoParqueo;
@@ -23,8 +25,6 @@ import com.ceiba.parqueadero.infraestructura.entity.RegistroParqueo;
 import com.ceiba.parqueadero.infraestructura.entity.Vehiculo;
 import com.ceiba.parqueadero.infraestructura.repository.RegistroParqueoRepository;
 import com.ceiba.parqueadero.infraestructura.repository.VehiculoRepository;
-import com.ceiba.parqueadero.util.CalcularTarifa;
-import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
 
 @Service
 public class VigilanteService implements VigilanteServiceInterface {
@@ -129,6 +129,7 @@ public class VigilanteService implements VigilanteServiceInterface {
 
 	@Override
 	public RegistroParqueoDTO buscarVehiculoParqueado(String placa) {
+	
 		RegistroParqueo registroEncontrado = registroParqueoRepository
 				.findByVehiculoPlacaAndEstadoRegistroParqueo(placa, EstadoRegistroParqueoEnum.ACTIVO);
 		if (registroEncontrado!=null) {

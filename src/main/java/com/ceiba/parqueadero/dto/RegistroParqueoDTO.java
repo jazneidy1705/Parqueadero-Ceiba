@@ -2,7 +2,7 @@ package com.ceiba.parqueadero.dto;
 
 import java.util.Date;
 
-import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
+import com.ceiba.parqueadero.dominio.util.EstadoRegistroParqueoEnum;
 
 
 

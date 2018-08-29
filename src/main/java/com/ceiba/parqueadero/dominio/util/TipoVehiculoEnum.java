@@ -1,4 +1,4 @@
-package com.ceiba.parqueadero.util;
+package com.ceiba.parqueadero.dominio.util;
 
 public enum TipoVehiculoEnum {
 	

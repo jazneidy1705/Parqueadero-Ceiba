@@ -3,10 +3,10 @@ package com.ceiba.parqueadero.dominio.validacionreglasnegocio;
 
 import org.springframework.stereotype.Component;
 
+import com.ceiba.parqueadero.dominio.util.EstadoRegistroParqueoEnum;
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
 import com.ceiba.parqueadero.infraestructura.entity.RegistroParqueo;
 import com.ceiba.parqueadero.infraestructura.repository.RegistroParqueoRepository;
-import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
 
 @Component
 public class ValidarEstadoParqueo implements IValidacionEntrada {

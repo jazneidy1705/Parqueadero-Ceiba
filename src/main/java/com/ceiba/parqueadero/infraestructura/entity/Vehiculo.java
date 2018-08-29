@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.ceiba.parqueadero.util.TipoVehiculoEnum;
+import com.ceiba.parqueadero.dominio.util.TipoVehiculoEnum;
 
 @Entity
 @Table(name = "VEHICULOS")

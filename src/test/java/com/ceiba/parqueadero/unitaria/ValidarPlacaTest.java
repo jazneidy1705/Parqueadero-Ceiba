@@ -14,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.ceiba.parqueadero.dominio.util.CalcularTarifa;
+import com.ceiba.parqueadero.dominio.util.EstadoRegistroParqueoEnum;
+import com.ceiba.parqueadero.dominio.util.TipoVehiculoEnum;
 import com.ceiba.parqueadero.dominio.validacionreglasnegocio.ValidarPlaca;
 import com.ceiba.parqueadero.dto.RegistroParqueoDTO;
 import com.ceiba.parqueadero.infraestructura.entity.RegistroParqueo;
@@ -21,9 +24,6 @@ import com.ceiba.parqueadero.infraestructura.entity.Vehiculo;
 import com.ceiba.parqueadero.infraestructura.repository.RegistroParqueoRepository;
 import com.ceiba.parqueadero.testdatabuilder.RegistroParqueoTestDataBuilder;
 import com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
-import com.ceiba.parqueadero.util.CalcularTarifa;
-import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
-import com.ceiba.parqueadero.util.TipoVehiculoEnum;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

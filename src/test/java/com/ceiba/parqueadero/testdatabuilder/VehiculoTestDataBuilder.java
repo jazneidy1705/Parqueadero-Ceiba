@@ -1,7 +1,7 @@
 package com.ceiba.parqueadero.testdatabuilder;
 
+import com.ceiba.parqueadero.dominio.util.TipoVehiculoEnum;
 import com.ceiba.parqueadero.infraestructura.entity.Vehiculo;
-import com.ceiba.parqueadero.util.TipoVehiculoEnum;
 
 public class VehiculoTestDataBuilder {
 

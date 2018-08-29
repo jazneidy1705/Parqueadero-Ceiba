@@ -1,6 +1,6 @@
 package com.ceiba.parqueadero.dto;
 
-import com.ceiba.parqueadero.util.TipoVehiculoEnum;
+import com.ceiba.parqueadero.dominio.util.TipoVehiculoEnum;
 
 public class VehiculoDTO {
 	

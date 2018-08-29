@@ -2,7 +2,7 @@ package com.ceiba.parqueadero.dominio.configuracionreglasnegocio;
 
 import org.springframework.stereotype.Component;
 
-import com.ceiba.parqueadero.util.TipoVehiculoEnum;
+import com.ceiba.parqueadero.dominio.util.TipoVehiculoEnum;
 
 @Component
 public class ParametrizacionFabrica {

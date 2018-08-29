@@ -2,9 +2,9 @@ package com.ceiba.parqueadero.testdatabuilder;
 
 import java.util.Date;
 
+import com.ceiba.parqueadero.dominio.util.EstadoRegistroParqueoEnum;
 import com.ceiba.parqueadero.infraestructura.entity.RegistroParqueo;
 import com.ceiba.parqueadero.infraestructura.entity.Vehiculo;
-import com.ceiba.parqueadero.util.EstadoRegistroParqueoEnum;
 
 public class RegistroParqueoTestDataBuilder {
 	
