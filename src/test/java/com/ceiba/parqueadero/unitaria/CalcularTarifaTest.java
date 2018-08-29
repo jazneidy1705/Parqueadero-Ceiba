@@ -120,5 +120,28 @@ public class CalcularTarifaTest {
 
 	}
 
+	@Test
+	public void calcularTarifaPorHora() throws ParseException {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date fechaIngreso = sdf.parse("2018-08-28 06:00:00");
+		Date fechaSalida = sdf.parse("2018-08-28 06:33:00");
+		
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("QAC123").conTipoVehiculo(TipoVehiculoEnum.CARRO)
+				.conCilindraje(2000).build();
+		
+		when(registroParqueo.getFechaSalida()).thenReturn(fechaSalida);
+		
+		RegistroParqueo registroParqueo = new RegistroParqueoTestDataBuilder()
+				.conEstadoRegistro(EstadoRegistroParqueoEnum.ACTIVO).conFechaEntrada(fechaIngreso).conVehiculo(vehiculo).conFechaSalida(fechaSalida)
+				.build();
+				
+		registroParqueoRepository.saveAndFlush(registroParqueo);
+		
+		double valor= Tarifa.calcularTarifaACobrarParqueadero(registroParqueo);
+		
+		assertEquals(1000.0, valor, 1);
+
+	}
 
 }
