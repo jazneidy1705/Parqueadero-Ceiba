@@ -141,7 +141,6 @@ public class CalcularTarifaTest {
 		double valor= Tarifa.calcularTarifaACobrarParqueadero(registroParqueo);
 		
 		assertEquals(1000.0, valor, 1);
-
 	}
 
 }
