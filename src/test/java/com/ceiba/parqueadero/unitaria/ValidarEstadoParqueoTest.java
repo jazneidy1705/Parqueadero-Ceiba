@@ -48,19 +48,5 @@ public class ValidarEstadoParqueoTest {
 		assertEquals(null, msg);
 		
 	}
-	
-	@Test
-	public void validarRegistroParqueoActivo() {
-		
-		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("PBC123").conTipoVehiculo(TipoVehiculoEnum.CARRO)
-				.conCilindraje(500).build();
-		RegistroParqueo registroParqueo = new RegistroParqueoTestDataBuilder()
-				.conEstadoRegistro(EstadoRegistroParqueoEnum.ACTIVO).conFechaEntrada(new Date()).conVehiculo(vehiculo)
-				.build();
-		
-		String msg = validarEstado.ejecutarValidacionesEntrada(
-				modelMapper.map(registroParqueo, RegistroParqueoDTO.class), registroRepository);
-		assertEquals("El vehiculo tiene actualmente un registro de parqueo Activo", msg);
-		
-	}
+
 }
